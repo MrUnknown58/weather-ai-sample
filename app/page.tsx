@@ -18,7 +18,8 @@ interface getDataProps {
   unit?: string;
 }
 async function getData({ lon, lat, city, unit = "metric" }: getDataProps) {
-  if (!city && !lat && !lon) return null;
+  if (!city && !lat && !lon)
+    return "Give Location Permission or Search a city..";
   const res = await fetch(
     `https://api.openweathermap.org/data/2.5/weather?${
       city ? `q=${city}` : `lat=${lat}&lon=${lon}`
