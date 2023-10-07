@@ -1,5 +1,10 @@
-import React from "react";
-export const SearchIcon = ({
+interface SearchIconProps {
+  size?: number;
+  strokeWidth?: number;
+  width?: number;
+  height?: number;
+}
+export const SearchIcon: React.FC<SearchIconProps> = ({
   size = 24,
   strokeWidth = 1.5,
   width,

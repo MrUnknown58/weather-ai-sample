@@ -1,9 +1,16 @@
 "use client";
 import { useEffect, useState } from "react";
 import setCookies from "./serverActions/setCookies";
+interface locationProps {
+  latitude: number;
+  longitude: number;
+}
 const LocationRequest = () => {
-  const [location, setLocation] = useState(null);
-  const [error, setError] = useState(null);
+  const [location, setLocation] = useState<locationProps>({
+    latitude: 0,
+    longitude: 0,
+  });
+  const [error, setError] = useState("null");
 
   useEffect(() => {
     // Check if geolocation is available in the browser
@@ -28,8 +35,8 @@ const LocationRequest = () => {
 
   useEffect(() => {
     if (location?.latitude && location?.longitude) {
-      setCookies("lat", location.latitude);
-      setCookies("lon", location.longitude);
+      setCookies({ name: "lat", value: location.latitude });
+      setCookies({ name: "lon", value: location.longitude });
     }
   }, [location]);
   return <></>;

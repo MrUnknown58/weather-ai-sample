@@ -1,7 +1,23 @@
 import Image from "next/image";
 import React from "react";
-
-const WeatherDesc = ({ data, unit }) => {
+interface WeatherDescProps {
+  data: {
+    main: {
+      feels_like: number;
+      temp_min: number;
+      temp_max: number;
+      pressure: number;
+      humidity: number;
+    };
+    wind: {
+      speed: number;
+      deg: number;
+    };
+    weather: [{ icon: string; main: string }];
+  };
+  unit: string;
+}
+const WeatherDesc: React.FC<WeatherDescProps> = ({ data, unit }) => {
   return (
     <div className="flex flex-col text-lg space-y-2">
       <div className="flex items-center space-x-2">

@@ -9,8 +9,15 @@ import WeatherInfo from "./components/WeatherInfo";
 import WeatherDesc from "./components/WeatherDesc";
 import { SearchIcon } from "./components/Icons/SearchIcon";
 import InputBox from "./components/Input";
+import { Spinner } from "@nextui-org/spinner";
 
-async function getData(lon, lat, city, unit = "metric") {
+interface getDataProps {
+  lon?: string;
+  lat?: string;
+  city?: string;
+  unit?: string;
+}
+async function getData({ lon, lat, city, unit = "metric" }: getDataProps) {
   if (!city && !lat && !lon) return null;
   const res = await fetch(
     `https://api.openweathermap.org/data/2.5/weather?${
@@ -26,13 +33,28 @@ async function getData(lon, lat, city, unit = "metric") {
 
   return await res.json();
 }
-export default async function Home({ searchParams }) {
+
+interface HomeProps {
+  searchParams: {
+    city: string;
+    unit: string;
+  };
+}
+export default async function Home({ searchParams }: HomeProps) {
   const city = searchParams.city;
   const cookieStore = cookies();
   const lon = cookieStore.get("lon");
   const lat = cookieStore.get("lat");
   const unit = searchParams.unit;
-  const data = await getData(lon?.value, lat?.value, city, unit);
+  const data = await getData({
+    lon: lon?.value,
+    lat: lat?.value,
+    city: city,
+    unit: unit,
+  });
+  if (!data) {
+    return <Spinner size="lg" />;
+  }
   if (typeof data === "string")
     return (
       <div className="flex justify-center items-center h-full text-4xl">

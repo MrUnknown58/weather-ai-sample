@@ -6,7 +6,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 // import { MoonIcon } from "./MoonIcon";
 // import { SunIcon } from "./SunIcon";
 
-const ThemeSwitch = (props) => {
+const ThemeSwitch = (props: any) => {
   const {
     Component,
     slots,

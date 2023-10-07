@@ -6,7 +6,7 @@ import rainAnimation from "./lottieFiles/rainAnimation.json";
 import sunnyAnimation from "./lottieFiles/sunnyAnimation.json";
 import thunderAnimation from "./lottieFiles/thunderAnimation.json";
 import cloudyAnimation from "./lottieFiles/cloudyAnimation.json";
-const getAnimationName = (weather) => {
+const getAnimationName = (weather: string) => {
   switch (weather) {
     case "Haze":
       return hazeAnimation;
@@ -26,7 +26,27 @@ const getAnimationName = (weather) => {
       return sunnyAnimation;
   }
 };
-const WeatherInfo = async ({ data, unit }) => {
+
+interface WeatherInfoProps {
+  data: {
+    name: string;
+    main: {
+      feels_like: number;
+      temp_min: number;
+      temp_max: number;
+      pressure: number;
+      humidity: number;
+      temp: number;
+    };
+    wind: {
+      speed: number;
+      deg: number;
+    };
+    weather: [{ icon: string; main: string }];
+  };
+  unit: string;
+}
+const WeatherInfo: React.FC<WeatherInfoProps> = async ({ data, unit }) => {
   const date = new Date();
   const offset =
     date.getTimezoneOffset() == 0 ? 0 : -1 * date.getTimezoneOffset();
