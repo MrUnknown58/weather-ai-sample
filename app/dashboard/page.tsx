@@ -2,16 +2,14 @@ import { Button } from "@nextui-org/button";
 import { CircularProgress } from "@nextui-org/progress";
 import Image from "next/image";
 import { Popover, PopoverTrigger, PopoverContent } from "@nextui-org/popover";
-import LocationRequest from "./components/LocationRequest";
+import LocationRequest from "../components/LocationRequest";
 import { cookies } from "next/headers";
 import { useCallback } from "react";
-import WeatherInfo from "./components/WeatherInfo";
-import WeatherDesc from "./components/WeatherDesc";
-import { SearchIcon } from "./components/Icons/SearchIcon";
-import InputBox from "./components/Input";
+import WeatherInfo from "../components/WeatherInfo";
+import WeatherDesc from "../components/WeatherDesc";
+import { SearchIcon } from "../components/Icons/SearchIcon";
+import InputBox from "../components/Input";
 import { Spinner } from "@nextui-org/spinner";
-import Dashboard from "./dashboard/page";
-import Link from "next/link";
 
 interface getDataProps {
   lon?: string;
@@ -37,37 +35,37 @@ async function getData({ lon, lat, city, unit = "metric" }: getDataProps) {
   return await res.json();
 }
 
-interface HomeProps {
+interface DashboardProps {
   searchParams: {
     city: string;
     unit: string;
   };
 }
-export default async function Home({ searchParams }: HomeProps) {
-  // const city = searchParams.city;
-  // const cookieStore = cookies();
-  // const lon = cookieStore.get("lon");
-  // const lat = cookieStore.get("lat");
-  // const unit = searchParams.unit;
-  // const data = await getData({
-  //   lon: lon?.value,
-  //   lat: lat?.value,
-  //   city: city,
-  //   unit: unit,
-  // });
-  // if (!data) {
-  //   return <Spinner size="lg" />;
-  // }
-  // if (typeof data === "string")
-  //   return (
-  //     <div className="flex justify-center items-center h-full text-4xl">
-  //       <LocationRequest />
-  //       {data.toUpperCase()}
-  //     </div>
-  //   );
+export default async function Dashboard({ searchParams }: DashboardProps) {
+  const city = searchParams.city;
+  const cookieStore = cookies();
+  const lon = cookieStore.get("lon");
+  const lat = cookieStore.get("lat");
+  const unit = searchParams.unit;
+  const data = await getData({
+    lon: lon?.value,
+    lat: lat?.value,
+    city: city,
+    unit: unit,
+  });
+  if (!data) {
+    return <Spinner size="lg" />;
+  }
+  if (typeof data === "string")
+    return (
+      <div className="flex justify-center items-center h-full text-4xl">
+        <LocationRequest />
+        {data.toUpperCase()}
+      </div>
+    );
   return (
     <>
-      {/* <div className="md:pl-44 items-center md:justify-start flex md:flex-row flex-col mt-10 text-2xl h-full">
+      <div className="md:pl-44 items-center md:justify-start flex md:flex-row flex-col mt-10 text-2xl h-full">
         <div className="h-full md:w-[50%]">
           <WeatherInfo data={data} unit={unit} />
         </div>
@@ -75,8 +73,7 @@ export default async function Home({ searchParams }: HomeProps) {
           <WeatherDesc data={data} unit={unit} />
         </div>
       </div>
-      <LocationRequest />  */}
-      <Link href="/dashboard" />
+      <LocationRequest />
     </>
   );
 }
